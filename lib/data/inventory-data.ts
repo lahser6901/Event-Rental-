@@ -1,0 +1,223 @@
+export const inventoryItems = [
+  // Tents
+  {
+    id: "tent-1",
+    name: "20x20 Pole Tent",
+    category: "tents",
+    type: "pole-tent",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 200,
+      height: 200,
+    },
+    colors: ["white"],
+    available: 5,
+    dailyRate: 350,
+  },
+  {
+    id: "tent-2",
+    name: "30x60 Frame Tent",
+    category: "tents",
+    type: "frame-tent",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 300,
+      height: 600,
+    },
+    colors: ["white"],
+    available: 2,
+    dailyRate: 950,
+  },
+  {
+    id: "tent-3",
+    name: "15x15 Stretch Tent",
+    category: "tents",
+    type: "stretch-tent",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 150,
+      height: 150,
+    },
+    colors: ["white", "ivory"],
+    available: 3,
+    dailyRate: 275,
+  },
+
+  // Tables
+  {
+    id: "table-1",
+    name: '60" Round Table',
+    category: "tables",
+    type: "round-table",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 60,
+      height: 60,
+    },
+    colors: ["wood"],
+    available: 50,
+    dailyRate: 12,
+  },
+  {
+    id: "table-2",
+    name: "8' Banquet Table",
+    category: "tables",
+    type: "banquet-table",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 96,
+      height: 30,
+    },
+    colors: ["wood"],
+    available: 30,
+    dailyRate: 10,
+  },
+  {
+    id: "table-3",
+    name: "Cocktail Table",
+    category: "tables",
+    type: "cocktail-table",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 36,
+      height: 36,
+    },
+    colors: ["wood"],
+    available: 25,
+    dailyRate: 8,
+  },
+
+  // Chairs
+  {
+    id: "chair-1",
+    name: "Gold Chiavari Chair",
+    category: "chairs",
+    type: "chiavari-chair",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 16,
+      height: 16,
+    },
+    colors: ["gold"],
+    available: 200,
+    dailyRate: 8.5,
+  },
+  {
+    id: "chair-2",
+    name: "White Folding Chair",
+    category: "chairs",
+    type: "folding-chair",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 18,
+      height: 18,
+    },
+    colors: ["white"],
+    available: 300,
+    dailyRate: 2.5,
+  },
+  {
+    id: "chair-3",
+    name: "Ghost Chair",
+    category: "chairs",
+    type: "ghost-chair",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 16,
+      height: 16,
+    },
+    colors: ["clear"],
+    available: 100,
+    dailyRate: 12,
+  },
+
+  // Dance Floors
+  {
+    id: "floor-1",
+    name: "15x15 Wood Dance Floor",
+    category: "danceFloors",
+    type: "wood-floor",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 180,
+      height: 180,
+    },
+    colors: ["oak"],
+    available: 1,
+    dailyRate: 450,
+  },
+  {
+    id: "floor-2",
+    name: "12x12 LED Dance Floor",
+    category: "danceFloors",
+    type: "led-floor",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 144,
+      height: 144,
+    },
+    colors: ["multi"],
+    available: 1,
+    dailyRate: 850,
+  },
+
+  // Lighting
+  {
+    id: "light-1",
+    name: "LED Uplights",
+    category: "lighting",
+    type: "uplight",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 8,
+      height: 8,
+    },
+    colors: ["multi"],
+    available: 24,
+    dailyRate: 25,
+  },
+  {
+    id: "light-2",
+    name: "String Lights (100ft)",
+    category: "lighting",
+    type: "string-lights",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 1200,
+      height: 1,
+    },
+    colors: ["warm white"],
+    available: 10,
+    dailyRate: 75,
+  },
+
+  // Decor
+  {
+    id: "decor-1",
+    name: "Floral Centerpiece",
+    category: "decor",
+    type: "centerpiece",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 12,
+      height: 12,
+    },
+    colors: ["mixed"],
+    available: 30,
+    dailyRate: 45,
+  },
+  {
+    id: "decor-2",
+    name: "Backdrop (8x10)",
+    category: "decor",
+    type: "backdrop",
+    thumbnail: "/placeholder.svg?height=100&width=100",
+    dimensions: {
+      width: 96,
+      height: 120,
+    },
+    colors: ["white"],
+    available: 2,
+    dailyRate: 150,
+  },
+]
