@@ -1,280 +1,250 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ProjectHeader } from "@/components/project-header"
 import {
-  Calculator,
   Camera,
+  Brain,
+  Calculator,
   Tent,
-  Bot,
-  Zap,
-  Users,
-  Layout,
-  Share2,
-  FileText,
   Sparkles,
-  MapPin,
-  Cloud,
-  Wand2,
+  Zap,
+  Target,
+  Ruler,
+  FileText,
+  ArrowRight,
+  Star,
+  TrendingUp,
 } from "lucide-react"
+
+const featuredTools = [
+  {
+    title: "Enhanced Photo Planner",
+    description: "Advanced computer vision analysis with comprehensive space assessment",
+    href: "/enhanced-photo-planner",
+    icon: Camera,
+    badge: "New",
+    badgeColor: "bg-green-100 text-green-800",
+    features: ["AI Space Analysis", "Lighting Assessment", "Safety Compliance", "Capacity Planning"],
+  },
+  {
+    title: "Comprehensive Event Wizard",
+    description: "Complete 6-step AI-powered event planning with weather and maps",
+    href: "/comprehensive-wizard",
+    icon: Brain,
+    badge: "Popular",
+    badgeColor: "bg-blue-100 text-blue-800",
+    features: ["Weather Integration", "Google Maps", "AI Optimization", "PDF Export"],
+  },
+  {
+    title: "Ultimate Scanner",
+    description: "Professional-grade photo measurement and analysis tool",
+    href: "/ultimate-scanner",
+    icon: Target,
+    badge: "Pro",
+    badgeColor: "bg-purple-100 text-purple-800",
+    features: ["LiDAR Simulation", "Precision Measurement", "3D Analysis", "AR Preview"],
+  },
+]
+
+const quickTools = [
+  {
+    title: "Space Calculator",
+    description: "Calculate optimal space requirements",
+    href: "/space-calculator",
+    icon: Calculator,
+  },
+  {
+    title: "Tent Selection Wizard",
+    description: "Find the perfect tent for your event",
+    href: "/tent-wizard",
+    icon: Tent,
+  },
+  {
+    title: "Detailed Space Planner",
+    description: "Professional layout design with measurements",
+    href: "/detailed-space-planner",
+    icon: Ruler,
+  },
+  {
+    title: "Precision Scanner",
+    description: "High-accuracy space measurement",
+    href: "/precision-scanner",
+    icon: Zap,
+  },
+]
+
+const stats = [
+  { label: "Events Planned", value: "10,000+", icon: FileText },
+  { label: "AI Accuracy", value: "94%", icon: Brain },
+  { label: "Time Saved", value: "75%", icon: TrendingUp },
+  { label: "User Rating", value: "4.9/5", icon: Star },
+]
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <ProjectHeader />
 
-      <main className="container mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-6 py-12 space-y-16">
         {/* Hero Section */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center space-x-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4">
-            <Sparkles className="h-4 w-4" />
-            <span>AI-Powered Event Planning Platform</span>
+        <div className="text-center space-y-6">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Sparkles className="w-10 h-10 text-purple-600" />
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              EventPro AI
+            </h1>
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Professional Event Rental Platform
-          </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Complete event planning solution with AI assistance, real-time collaboration, and professional tools for
-            tent rentals, space planning, and layout design.
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Transform your event planning with advanced AI-powered tools. From photo analysis to comprehensive planning,
+            create perfect events with intelligent automation and professional insights.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/comprehensive-wizard">
+          <div className="flex items-center justify-center gap-4 pt-4">
+            <Button size="lg" asChild>
+              <Link href="/enhanced-photo-planner">
+                <Camera className="w-5 h-5 mr-2" />
+                Try Enhanced Photo Planner
+              </Link>
+            </Button>
+            <Button variant="outline" size="lg" asChild>
+              <Link href="/comprehensive-wizard">
+                <Brain className="w-5 h-5 mr-2" />
+                Start AI Wizard
+              </Link>
+            </Button>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {stats.map((stat, index) => {
+            const Icon = stat.icon
+            return (
+              <Card key={index} className="text-center">
+                <CardContent className="p-6">
+                  <Icon className="w-8 h-8 mx-auto mb-2 text-blue-600" />
+                  <p className="text-2xl font-bold">{stat.value}</p>
+                  <p className="text-sm text-muted-foreground">{stat.label}</p>
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
+
+        {/* Featured Tools */}
+        <div className="space-y-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold mb-4">Featured AI Tools</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Discover our most powerful AI-driven event planning tools designed for professional results
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {featuredTools.map((tool, index) => {
+              const Icon = tool.icon
+              return (
+                <Card key={index} className="group hover:shadow-lg transition-shadow duration-300">
+                  <CardHeader>
+                    <div className="flex items-center justify-between mb-2">
+                      <Icon className="w-8 h-8 text-blue-600" />
+                      <Badge className={tool.badgeColor}>{tool.badge}</Badge>
+                    </div>
+                    <CardTitle className="group-hover:text-blue-600 transition-colors">{tool.title}</CardTitle>
+                    <CardDescription>{tool.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      {tool.features.map((feature, idx) => (
+                        <div key={idx} className="flex items-center gap-2 text-sm">
+                          <div className="w-1.5 h-1.5 bg-blue-600 rounded-full" />
+                          {feature}
+                        </div>
+                      ))}
+                    </div>
+                    <Button asChild className="w-full group-hover:bg-blue-600 transition-colors">
+                      <Link href={tool.href}>
+                        Get Started
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Quick Tools */}
+        <div className="space-y-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold mb-4">Quick Planning Tools</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Fast and efficient tools for specific planning tasks
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {quickTools.map((tool, index) => {
+              const Icon = tool.icon
+              return (
+                <Card key={index} className="group hover:shadow-md transition-shadow duration-200">
+                  <CardHeader className="text-center">
+                    <Icon className="w-10 h-10 mx-auto mb-3 text-purple-600 group-hover:text-purple-700 transition-colors" />
+                    <CardTitle className="text-lg">{tool.title}</CardTitle>
+                    <CardDescription className="text-sm">{tool.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button variant="outline" asChild className="w-full bg-transparent">
+                      <Link href={tool.href}>Launch Tool</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <Card className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+          <CardContent className="p-12 text-center">
+            <h2 className="text-3xl font-bold mb-4">Ready to Plan Your Perfect Event?</h2>
+            <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+              Join thousands of event planners who trust EventPro AI for professional, efficient, and intelligent event
+              planning solutions.
+            </p>
+            <div className="flex items-center justify-center gap-4">
+              <Button size="lg" variant="secondary" asChild>
+                <Link href="/enhanced-photo-planner">
+                  <Camera className="w-5 h-5 mr-2" />
+                  Start with Photos
+                </Link>
+              </Button>
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                variant="outline"
+                className="text-white border-white hover:bg-white hover:text-blue-600 bg-transparent"
+                asChild
               >
-                <Wand2 className="h-5 w-5 mr-2" />
-                Start AI Event Wizard
+                <Link href="/comprehensive-wizard">
+                  <Sparkles className="w-5 h-5 mr-2" />
+                  Try AI Wizard
+                </Link>
               </Button>
-            </Link>
-            <Link href="/tent-wizard">
-              <Button size="lg" variant="outline">
-                <Tent className="h-5 w-5 mr-2" />
-                Tent Selection Wizard
-              </Button>
-            </Link>
-          </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Footer */}
+        <div className="text-center py-8 border-t">
+          <p className="text-muted-foreground">
+            © 2024 EventPro AI. Powered by advanced computer vision and artificial intelligence.
+          </p>
         </div>
-
-        {/* Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {/* AI Event Wizard */}
-          <Card className="relative overflow-hidden border-2 border-primary/20 bg-gradient-to-br from-blue-50 to-purple-50">
-            <div className="absolute top-2 right-2">
-              <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                <Sparkles className="h-3 w-3 mr-1" />
-                NEW
-              </Badge>
-            </div>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Bot className="h-6 w-6 text-primary" />
-                <span>AI Event Wizard</span>
-              </CardTitle>
-              <CardDescription>
-                Complete 6-step wizard with AI recommendations, weather integration, and collaborative planning
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2 mb-4">
-                <div className="flex items-center space-x-2 text-sm">
-                  <MapPin className="h-4 w-4 text-green-600" />
-                  <span>Google Maps Integration</span>
-                </div>
-                <div className="flex items-center space-x-2 text-sm">
-                  <Cloud className="h-4 w-4 text-blue-600" />
-                  <span>Weather Forecast & Recommendations</span>
-                </div>
-                <div className="flex items-center space-x-2 text-sm">
-                  <Bot className="h-4 w-4 text-purple-600" />
-                  <span>AI Layout Optimization</span>
-                </div>
-                <div className="flex items-center space-x-2 text-sm">
-                  <Share2 className="h-4 w-4 text-orange-600" />
-                  <span>Real-time Collaboration</span>
-                </div>
-              </div>
-              <Link href="/comprehensive-wizard">
-                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                  Launch AI Wizard
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-
-          {/* Tent Selection Wizard */}
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Tent className="h-6 w-6 text-green-600" />
-                <span>Tent Selection Wizard</span>
-              </CardTitle>
-              <CardDescription>
-                5-step guided tent selection with capacity planning and surface recommendations
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2 mb-4">
-                <div className="flex items-center space-x-2 text-sm">
-                  <Users className="h-4 w-4 text-blue-600" />
-                  <span>Capacity-based sizing</span>
-                </div>
-                <div className="flex items-center space-x-2 text-sm">
-                  <Layout className="h-4 w-4 text-green-600" />
-                  <span>Surface analysis</span>
-                </div>
-                <div className="flex items-center space-x-2 text-sm">
-                  <Zap className="h-4 w-4 text-yellow-600" />
-                  <span>Smart recommendations</span>
-                </div>
-              </div>
-              <Link href="/tent-wizard">
-                <Button className="w-full bg-transparent" variant="outline">
-                  Start Tent Wizard
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-
-          {/* Space Calculators */}
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Calculator className="h-6 w-6 text-blue-600" />
-                <span>Space Calculators</span>
-              </CardTitle>
-              <CardDescription>Professional space planning tools with detailed calculations</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <Link href="/space-calculator">
-                  <Button variant="outline" className="w-full justify-start bg-transparent">
-                    <Calculator className="h-4 w-4 mr-2" />
-                    Quick Calculator
-                  </Button>
-                </Link>
-                <Link href="/detailed-space-planner">
-                  <Button variant="outline" className="w-full justify-start bg-transparent">
-                    <Layout className="h-4 w-4 mr-2" />
-                    Detailed Planner
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Photo Scanners */}
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Camera className="h-6 w-6 text-purple-600" />
-                <span>Photo Scanners</span>
-              </CardTitle>
-              <CardDescription>AI-powered space measurement from photos with high accuracy</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <Link href="/photo-scanner">
-                  <Button variant="outline" className="w-full justify-start bg-transparent">
-                    <Camera className="h-4 w-4 mr-2" />
-                    Basic Scanner (85%)
-                  </Button>
-                </Link>
-                <Link href="/precision-scanner">
-                  <Button variant="outline" className="w-full justify-start bg-transparent">
-                    <Zap className="h-4 w-4 mr-2" />
-                    Precision (99.8%)
-                  </Button>
-                </Link>
-                <Link href="/ultimate-scanner">
-                  <Button variant="outline" className="w-full justify-start bg-transparent">
-                    <Sparkles className="h-4 w-4 mr-2" />
-                    Ultimate Scanner
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* AI Assistant */}
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Bot className="h-6 w-6 text-orange-600" />
-                <span>AI Assistant</span>
-              </CardTitle>
-              <CardDescription>Intelligent layout optimization and compliance checking</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <Link href="/ai-wizard">
-                  <Button variant="outline" className="w-full justify-start bg-transparent">
-                    <Bot className="h-4 w-4 mr-2" />
-                    AI Layout Assistant
-                  </Button>
-                </Link>
-                <div className="text-sm text-muted-foreground">
-                  • Layout optimization • Capacity calculation • Compliance checking
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Export & Collaboration */}
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <FileText className="h-6 w-6 text-green-600" />
-                <span>Export & Share</span>
-              </CardTitle>
-              <CardDescription>Professional export options and team collaboration tools</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center space-x-2">
-                  <FileText className="h-4 w-4 text-red-600" />
-                  <span>PDF Export</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Share2 className="h-4 w-4 text-blue-600" />
-                  <span>Real-time Collaboration</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Users className="h-4 w-4 text-green-600" />
-                  <span>Client Sharing</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Stats Section */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg border">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-2">Trusted by Event Professionals</h2>
-            <p className="text-muted-foreground">Comprehensive tools for every aspect of event planning</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">94%</div>
-              <div className="text-sm text-muted-foreground">AI Accuracy</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 mb-2">15+</div>
-              <div className="text-sm text-muted-foreground">Professional Tools</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 mb-2">Real-time</div>
-              <div className="text-sm text-muted-foreground">Collaboration</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 mb-2">Cloud</div>
-              <div className="text-sm text-muted-foreground">Sync & Save</div>
-            </div>
-          </div>
-        </div>
-      </main>
+      </div>
     </div>
   )
 }
