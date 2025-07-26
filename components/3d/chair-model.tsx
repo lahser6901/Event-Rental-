@@ -1,91 +1,78 @@
 "use client"
 
 import { useRef } from "react"
-import * as THREE from "three"
+import { useFrame } from "@react-three/fiber"
+import type { Mesh } from "three"
 
 interface ChairModelProps {
-  item: {
-    id: string
-    position: {
-      x: number
-      y: number
-    }
-    rotation: number
-    dimensions: {
-      width: number
-      height: number
-    }
-    type: string
-  }
+  position: [number, number, number]
+  rotation: [number, number, number]
+  type: string
+  color: string
+  scale: [number, number, number]
 }
 
-export function ChairModel({ item }: ChairModelProps) {
-  const meshRef = useRef<THREE.Mesh>(null)
+export function ChairModel({ position, rotation, type, color, scale }: ChairModelProps) {
+  const meshRef = useRef<Mesh>(null)
 
-  // Convert 2D position to 3D position
-  const x = (item.position.x - 1500) / 100
-  const z = (item.position.y - 1000) / 100
-  const rotationY = THREE.MathUtils.degToRad(item.rotation)
+  useFrame((state) => {
+    if (meshRef.current) {
+      // Subtle hover animation
+      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.3 + position[0]) * 0.01
+    }
+  })
 
-  // Scale based on dimensions
-  const width = item.dimensions.width / 100
-  const depth = item.dimensions.height / 100
+  if (type === "chiavari") {
+    return (
+      <group position={position} rotation={rotation} scale={scale}>
+        {/* Seat */}
+        <mesh ref={meshRef} position={[0, 0.45, 0]}>
+          <boxGeometry args={[0.4, 0.05, 0.4]} />
+          <meshStandardMaterial color={color} roughness={0.2} metalness={0.8} />
+        </mesh>
 
-  const isChiavari = item.type === "chiavari-chair"
-  const color = isChiavari ? "#d4af37" : "#5d3a1a"
+        {/* Backrest */}
+        <mesh position={[0, 0.7, -0.18]}>
+          <boxGeometry args={[0.4, 0.5, 0.05]} />
+          <meshStandardMaterial color={color} roughness={0.2} metalness={0.8} />
+        </mesh>
 
+        {/* Legs */}
+        {[
+          [-0.15, 0.225, -0.15],
+          [0.15, 0.225, -0.15],
+          [-0.15, 0.225, 0.15],
+          [0.15, 0.225, 0.15],
+        ].map((legPos, index) => (
+          <mesh key={index} position={legPos}>
+            <cylinderGeometry args={[0.02, 0.02, 0.45, 8]} />
+            <meshStandardMaterial color={color} roughness={0.2} metalness={0.8} />
+          </mesh>
+        ))}
+      </group>
+    )
+  }
+
+  // Standard folding chair
   return (
-    <group position={[x, 0, z]} rotation={[0, rotationY, 0]}>
-      {/* Chair seat */}
-      <mesh position={[0, 0.45, 0]} receiveShadow castShadow ref={meshRef}>
-        <boxGeometry args={[width, 0.05, depth]} />
-        <meshStandardMaterial color={color} />
+    <group position={position} rotation={rotation} scale={scale}>
+      {/* Seat */}
+      <mesh ref={meshRef} position={[0, 0.4, 0]}>
+        <boxGeometry args={[0.4, 0.05, 0.4]} />
+        <meshStandardMaterial color={color} roughness={0.4} metalness={0.1} />
       </mesh>
 
-      {/* Chair back */}
-      <mesh position={[0, 0.8, -depth / 2 + 0.05]} receiveShadow castShadow>
-        <boxGeometry args={[width, 0.7, 0.05]} />
-        <meshStandardMaterial color={color} />
+      {/* Backrest */}
+      <mesh position={[0, 0.65, -0.18]}>
+        <boxGeometry args={[0.4, 0.5, 0.05]} />
+        <meshStandardMaterial color={color} roughness={0.4} metalness={0.1} />
       </mesh>
 
-      {/* Chair legs */}
-      <mesh position={[width / 2 - 0.05, 0.225, depth / 2 - 0.05]} receiveShadow castShadow>
-        <boxGeometry args={[0.05, 0.45, 0.05]} />
-        <meshStandardMaterial color={color} />
+      {/* Frame */}
+      <mesh position={[0, 0.2, 0]}>
+        <boxGeometry args={[0.42, 0.4, 0.42]} />
+        <meshStandardMaterial color="#666666" roughness={0.6} metalness={0.7} wireframe={true} />
       </mesh>
-      <mesh position={[-width / 2 + 0.05, 0.225, depth / 2 - 0.05]} receiveShadow castShadow>
-        <boxGeometry args={[0.05, 0.45, 0.05]} />
-        <meshStandardMaterial color={color} />
-      </mesh>
-      <mesh position={[width / 2 - 0.05, 0.225, -depth / 2 + 0.05]} receiveShadow castShadow>
-        <boxGeometry args={[0.05, 0.45, 0.05]} />
-        <meshStandardMaterial color={color} />
-      </mesh>
-      <mesh position={[-width / 2 + 0.05, 0.225, -depth / 2 + 0.05]} receiveShadow castShadow>
-        <boxGeometry args={[0.05, 0.45, 0.05]} />
-        <meshStandardMaterial color={color} />
-      </mesh>
-
-      {/* Decorative elements for Chiavari chairs */}
-      {isChiavari && (
-        <>
-          {/* Horizontal bars */}
-          {[0.2, 0.3, 0.4].map((height, i) => (
-            <mesh key={i} position={[0, height, 0]} receiveShadow castShadow>
-              <boxGeometry args={[width, 0.02, 0.02]} />
-              <meshStandardMaterial color={color} />
-            </mesh>
-          ))}
-
-          {/* Vertical bars on back */}
-          {[-0.1, -0.05, 0, 0.05, 0.1].map((offset, i) => (
-            <mesh key={i} position={[offset, 0.8, -depth / 2 + 0.05]} receiveShadow castShadow>
-              <boxGeometry args={[0.02, 0.7, 0.02]} />
-              <meshStandardMaterial color={color} />
-            </mesh>
-          ))}
-        </>
-      )}
     </group>
   )
 }

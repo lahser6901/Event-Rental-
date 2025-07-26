@@ -8,11 +8,19 @@ interface LayoutItem {
   name: string
   category: string
   type: string
-  thumbnail: string
+  thumbnail?: string
+  image?: string
   dimensions: {
     width: number
     height: number
     depth?: number
+  }
+  realWorldDimensions?: {
+    width: number
+    height: number
+    depth: number
+    weight?: number
+    capacity?: number
   }
   position: {
     x: number
@@ -22,6 +30,21 @@ interface LayoutItem {
   colors: string[]
   available?: number
   dailyRate?: number
+  rotatable?: boolean
+  colorOptions?: string[]
+  materialOptions?: string[]
+  selectedMaterial?: string
+  specifications?: string[]
+  tableNumber?: string
+  guests?: Array<{ name: string; entree?: string }>
+  customColor?: string
+  customDimensions?: {
+    width: number
+    height: number
+    depth: number
+  }
+  capacity?: number
+  description?: string
 }
 
 interface LayoutStore {
@@ -30,8 +53,13 @@ interface LayoutStore {
   updateItemPosition: (id: string, delta: { x: number; y: number }, isDragging?: boolean) => void
   removeItem: (id: string) => void
   rotateItem: (id: string, degrees: number) => void
+  updateItemProperties: (id: string, properties: Partial<LayoutItem>) => void
+  clearItems: () => void
+  addMultipleItems: (items: Omit<LayoutItem, "id">[]) => void
   saveLayout: () => void
   loadLayout: () => void
+  duplicateItem: (id: string) => void
+  getItemById: (id: string) => LayoutItem | undefined
 }
 
 export const useLayoutStore = create<LayoutStore>((set, get) => ({
@@ -82,6 +110,58 @@ export const useLayoutStore = create<LayoutStore>((set, get) => ({
         return item
       }),
     }))
+  },
+
+  updateItemProperties: (id, properties) => {
+    set((state) => ({
+      layoutItems: state.layoutItems.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            ...properties,
+          }
+        }
+        return item
+      }),
+    }))
+  },
+
+  clearItems: () => {
+    set({ layoutItems: [] })
+  },
+
+  addMultipleItems: (items: Omit<LayoutItem, "id">[]) => {
+    const newItems = items.map((item) => ({
+      ...item,
+      id: uuidv4(),
+    }))
+
+    set((state) => ({
+      layoutItems: [...state.layoutItems, ...newItems],
+    }))
+  },
+
+  duplicateItem: (id) => {
+    const item = get().layoutItems.find((item) => item.id === id)
+    if (item) {
+      const duplicatedItem = {
+        ...item,
+        id: uuidv4(),
+        position: {
+          x: item.position.x + 50,
+          y: item.position.y + 50,
+        },
+        tableNumber: item.tableNumber ? `${item.tableNumber} Copy` : undefined,
+      }
+
+      set((state) => ({
+        layoutItems: [...state.layoutItems, duplicatedItem],
+      }))
+    }
+  },
+
+  getItemById: (id) => {
+    return get().layoutItems.find((item) => item.id === id)
   },
 
   saveLayout: () => {

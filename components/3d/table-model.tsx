@@ -1,83 +1,74 @@
 "use client"
 
 import { useRef } from "react"
-import * as THREE from "three"
+import { useFrame } from "@react-three/fiber"
+import type { Mesh } from "three"
 
 interface TableModelProps {
-  item: {
-    id: string
-    position: {
-      x: number
-      y: number
-    }
-    rotation: number
-    dimensions: {
-      width: number
-      height: number
-    }
-    type: string
-  }
+  position: [number, number, number]
+  rotation: [number, number, number]
+  type: string
+  color: string
+  scale: [number, number, number]
 }
 
-export function TableModel({ item }: TableModelProps) {
-  const meshRef = useRef<THREE.Mesh>(null)
+export function TableModel({ position, rotation, type, color, scale }: TableModelProps) {
+  const meshRef = useRef<Mesh>(null)
 
-  // Convert 2D position to 3D position
-  const x = (item.position.x - 1500) / 100
-  const z = (item.position.y - 1000) / 100
-  const rotationY = THREE.MathUtils.degToRad(item.rotation)
+  useFrame((state) => {
+    if (meshRef.current) {
+      // Subtle floating animation
+      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5) * 0.02
+    }
+  })
 
-  // Scale based on dimensions
-  const width = item.dimensions.width / 100
-  const depth = item.dimensions.height / 100
-  const isRound = item.type === "round-table"
+  if (type === "round") {
+    return (
+      <group position={position} rotation={rotation} scale={scale}>
+        {/* Table Top */}
+        <mesh ref={meshRef} position={[0, 0.4, 0]}>
+          <cylinderGeometry args={[1.5, 1.5, 0.1, 32]} />
+          <meshStandardMaterial color={color} roughness={0.3} metalness={0.1} />
+        </mesh>
 
+        {/* Table Base */}
+        <mesh position={[0, 0.2, 0]}>
+          <cylinderGeometry args={[0.3, 0.3, 0.4, 16]} />
+          <meshStandardMaterial color={color} roughness={0.4} metalness={0.2} />
+        </mesh>
+
+        {/* Table Legs (4 legs around the base) */}
+        {[0, Math.PI / 2, Math.PI, (3 * Math.PI) / 2].map((angle, index) => (
+          <mesh key={index} position={[Math.cos(angle) * 1.2, 0, Math.sin(angle) * 1.2]}>
+            <cylinderGeometry args={[0.05, 0.05, 0.4, 8]} />
+            <meshStandardMaterial color={color} roughness={0.6} metalness={0.3} />
+          </mesh>
+        ))}
+      </group>
+    )
+  }
+
+  // Rectangular table
   return (
-    <group position={[x, 0, z]} rotation={[0, rotationY, 0]}>
-      {/* Table top */}
-      <mesh position={[0, 0.75, 0]} receiveShadow castShadow ref={meshRef}>
-        {isRound ? (
-          <cylinderGeometry args={[width / 2, width / 2, 0.1, 32]} />
-        ) : (
-          <boxGeometry args={[width, 0.1, depth]} />
-        )}
-        <meshStandardMaterial color="#8b4513" />
+    <group position={position} rotation={rotation} scale={scale}>
+      {/* Table Top */}
+      <mesh ref={meshRef} position={[0, 0.4, 0]}>
+        <boxGeometry args={[2.4, 0.1, 1.2]} />
+        <meshStandardMaterial color={color} roughness={0.3} metalness={0.1} />
       </mesh>
 
-      {/* Table legs */}
-      {isRound ? (
-        <mesh position={[0, 0.375, 0]} receiveShadow castShadow>
-          <cylinderGeometry args={[0.1, 0.1, 0.75, 16]} />
-          <meshStandardMaterial color="#5d3a1a" />
+      {/* Table Legs */}
+      {[
+        [-1.1, 0, -0.5],
+        [1.1, 0, -0.5],
+        [-1.1, 0, 0.5],
+        [1.1, 0, 0.5],
+      ].map((legPos, index) => (
+        <mesh key={index} position={legPos}>
+          <boxGeometry args={[0.1, 0.4, 0.1]} />
+          <meshStandardMaterial color={color} roughness={0.6} metalness={0.3} />
         </mesh>
-      ) : (
-        <>
-          <mesh position={[width / 2 - 0.1, 0.375, depth / 2 - 0.1]} receiveShadow castShadow>
-            <boxGeometry args={[0.1, 0.75, 0.1]} />
-            <meshStandardMaterial color="#5d3a1a" />
-          </mesh>
-          <mesh position={[-width / 2 + 0.1, 0.375, depth / 2 - 0.1]} receiveShadow castShadow>
-            <boxGeometry args={[0.1, 0.75, 0.1]} />
-            <meshStandardMaterial color="#5d3a1a" />
-          </mesh>
-          <mesh position={[width / 2 - 0.1, 0.375, -depth / 2 + 0.1]} receiveShadow castShadow>
-            <boxGeometry args={[0.1, 0.75, 0.1]} />
-            <meshStandardMaterial color="#5d3a1a" />
-          </mesh>
-          <mesh position={[-width / 2 + 0.1, 0.375, -depth / 2 + 0.1]} receiveShadow castShadow>
-            <boxGeometry args={[0.1, 0.75, 0.1]} />
-            <meshStandardMaterial color="#5d3a1a" />
-          </mesh>
-        </>
-      )}
-
-      {/* Table base for round tables */}
-      {isRound && (
-        <mesh position={[0, 0.05, 0]} receiveShadow castShadow>
-          <cylinderGeometry args={[0.3, 0.5, 0.1, 16]} />
-          <meshStandardMaterial color="#5d3a1a" />
-        </mesh>
-      )}
+      ))}
     </group>
   )
 }
